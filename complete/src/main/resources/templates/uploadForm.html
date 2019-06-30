@@ -1,6 +1,9 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <body>
-
+<div>
+	Variaveis:<br/>
+	Nome Sistema: <a  th:text="${nomeSistema}"   />
+</div>
 	<div th:if="${message}">
 		<h2 th:text="${message}"/>
 	</div>
