@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,8 @@ import hello.storage.StorageService;
 public class FileUploadController {
 
     private final StorageService storageService;
+    @Autowired
+    private Environment env;
 
     @Autowired
     public FileUploadController(StorageService storageService) {
@@ -35,6 +39,7 @@ public class FileUploadController {
     @GetMapping("/")
     public String listUploadedFiles(Model model) throws IOException {
 
+        model.addAttribute("nomeSistema",env.getProperty("NOME_SISTEMA"));
         model.addAttribute("files", storageService.loadAll().map(
                 path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
                         "serveFile", path.getFileName().toString()).build().toString())
